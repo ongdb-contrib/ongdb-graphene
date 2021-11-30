@@ -1,0 +1,31 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /ongdb-graphene
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types:
+      - image/png
+      - image/jpeg
+      - image/jpg
+      - text/html
+      - application/javascript
+      - text/css
+      - application/octet-stream
+      - application/json
+  ssl:
+    key-store: classpath:keystore.keystore
+    key-store-password: 123456
+    key-alias: alias
+
+spring:
+  thymeleaf:
+    cache: false
+  mvc:
+    static-path-pattern: /path/**
+  resources:
+    static-locations: classpath:/static/
+
+
+

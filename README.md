@@ -1,19 +1,27 @@
-# graphene
+# ongdb-graphene
+>ONgDB GRAPHENE
 
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/6224536257f74c779f4a0b706e982ed3)](https://www.codacy.com/app/aleksandrenko/grad3ph)
+## 后端【backend:ongdb-graphene】
+- 启动类
+```
+data.lab.ongdb.RestApiEntrance
+```
+- 前端代理数据接口
+```
+http://localhost:8081/ongdb-graphene/
+https://localhost:8082/ongdb-graphene
+```
 
-1. git clone https://github.com/aleksandrenko/graphene.git
-2. cd graphene
+## 前端【browser:browser】
+1. git clone https://github.com/ongdb-contrib/ongdb-graphene.git
+2. cd ongdb-graphene
 3. npm install
 4. npm start
 5. open http://localhost:8080/app/
 
-project site: http://aleksandrenko.github.io/graphene
-
-(this is a pet/poc project with solely purpose of testing d3 and some ux ideas)
-
 ## introduction
 >图数据模型设计工具
 
-![intro-1](images/intro-1.jpg)
+![intro-1](browser/images/intro-1.jpg)
+
 
