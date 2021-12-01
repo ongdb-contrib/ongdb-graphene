@@ -3,6 +3,7 @@
 import DataManager from '../DataManager';
 import createDomElementInContainer from '../utils/dom';
 import jsonview from 'jquery-jsonview';
+import Dialog from "../ui/dialog";
 
 /** ====================================================================================================================
  * @type {Object}
@@ -29,14 +30,28 @@ const ExportManager = {
         'overlay-export-all-json-dialog',
         'overlay-export-all-json-dialog'
     );
-    DataManager.dialogLayer.innerHTML = _getHTML(JSON.stringify(dataToSave));
 
-    // const json = JSON.stringify(dataToSave);
-    // document.getElementById('jsonID').innerText = $('#json').JSONView('collapse');
+    const json = JSON.stringify(dataToSave);
+    DataManager.dialogLayer.innerHTML = _getHTML(json);
+    $('#overlay-export-all-json-dialog-json-id').JSONView(json, {collapsed: true, nl2br: true});
+
+    DataManager.dialogLayer.addEventListener('click', (e) => {
+      // const target = e.target;
+      // const className = target.classList[0];
+      // console.log(className);
+      // switch (className) {
+      //   case 'close-overlay-export-all-json-dialog-btn':
+      //     DataManager.dialogLayer.classList.remove('overlay-export-all-json-dialog');
+      //     break;
+      //   default:
+      //     break;
+      // }
+      //   document.getElementById('overlay-export-all-json-dialog').style.display = 'none';
+      //   document.querySelector('.overlay-export-all-json-dialog').style.display = 'none';
+        $('.overlay-export-all-json-dialog').attr('display','none');
+    });
   }
 };
-
-// document.getElementById(id).innerHTML= '<object type='text/html' data='new.html' width='100%' height='100%'></object>'
 
 /**
  * @private
@@ -47,11 +62,13 @@ const _getHTML = (data) => `
           <span>Json Data</span>
         </div>
         <div class="body">
-            <span id="jsonID">${data}</span>
+            <span id="overlay-export-all-json-dialog-json-id"/></span>
+            <span>${data}</span>
         </div>
         <div class="footer">
-          <button class="close-dialog-btn">Close</button>
+          <button class="close-overlay-export-all-json-dialog-btn">Close</button>
         </div>
       </div>`;
 
 export default ExportManager;
+
