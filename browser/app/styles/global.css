@@ -26,7 +26,8 @@ html, body {
 }
 
 .graph-editor * {
-  box-sizing: border-box;
+  /*box-sizing: border-box;*/
+  box-sizing: content-box;
 }
 
 .graph-editor pre {

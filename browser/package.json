@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config=webpack.config.js",
+    "serve": "webpack-dev-server  --config=webpack.config.js",
     "start": "webpack-dev-server --config webpack.config.js --progress --colors --display-error-details",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +27,8 @@
   "dependencies": {
     "codemirror": "^5.25.0",
     "d3": "3.5.13",
-    "preact": "7.2.0"
+    "preact": "7.2.0",
+    "jquery": "1.12.4",
+    "jquery-jsonview": "1.2.3"
   }
 }

@@ -5,6 +5,7 @@ import createDomElementInContainer from '../utils/dom';
 
 import SaveManager from '../SaveManager';
 import DataManager from '../DataManager';
+import ExportManager from '../export/ExportManager';
 
 /**
  * @type {string} The Id of the selected save entry
@@ -38,8 +39,13 @@ const _createNewSave = () => {
  */
 const _getHTML = (saves) => `
      <div class="dialog">
-        <div class="header">Saved graphs</div>
-        <div class="sub-header">
+        <div class="header">
+          <span>Saved graphs</span>
+          <button class="export-all-json left">Export All Json</button>
+          <button class="import-from-json left">Import From Json</button>
+          <button class="save-to-graphdatabases left">Associate With Graph Databases</button>
+        </div>
+        <div id="set_file_name" class="sub-header">
           <span>Save graph as:</span>
           <input type="text" maxlength="20" placeholder="Name of the save you wanna save." class="new-save-name-input" />
           <button class="save-btn">Save</button>
@@ -49,6 +55,7 @@ const _getHTML = (saves) => `
         </div>
         <div class="footer">
           <button class="new-save-btn left">New Save</button>
+          <button class="graph-task-mapping left">Graph Task Mapping</button>
           <button class="delete-btn" style="${!_selectedSaveId && 'display: none;'}">Delete</button>
           <button class="load-btn" style="${!_selectedSaveId && 'display: none;'}">Load</button>
           <button class="close-dialog-btn">Close</button>
@@ -65,8 +72,9 @@ const _getSavesHTML = (saves) => {
 
   saves.forEach(save => {
     html += `
-    <li class="save-entry ${_selectedSaveId === save.id && 'selected'}" title="${save.data.nodes.length} nodes, ${save.data.edges.length} edges" id="${save.id}">
-      <div class="icon">&#128196;</div>
+    <li class="save-entry ${_selectedSaveId === save.id && 'selected'}" title="文件名称：${save.name} \n节点关系：${save.data.nodes.length} nodes, ${save.data.edges.length} edges \n创建时间：${save.date}" id="${save.id}">
+<!--      <div class="icon">&#128196;</div>-->
+      <div class="icon"><img src="img/document-cover.jpg" height="90%" width="100%" title="显示的文件封面"/></div>
       <div class="name">${save.name}
         <small>${save.date}</small>
       </div>
@@ -157,6 +165,13 @@ const _setupDialog = () => {
           Dialog.close();
         }
         break;
+      case 'export-all-json':
+        ExportManager.json();
+        break;
+      case 'import-from-json':
+        console.log('import-from-json');
+        // ExportManager.json();
+        break;
       default:
         break;
     }
@@ -197,7 +212,8 @@ const Dialog = {
     Dialog.render();
 
     // hide header for just loading
-    document.querySelector('.dialog .sub-header').style.display = forSave ? 'flex' : 'none';
+    // document.querySelector('.dialog .sub-header').style.display = forSave ? 'flex' : 'none';
+    document.getElementById('set_file_name').style.display = forSave ? 'flex' : 'none';
     document.querySelector('.dialog .sub-header .new-save-name-input').focus();
     document.querySelector(`#${CONST.SVGROOT_ID}`).classList.add('blurred');
 
@@ -217,5 +233,6 @@ const Dialog = {
   }
 };
 
-
 export default Dialog;
+
+

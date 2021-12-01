@@ -26,7 +26,7 @@ class Intro extends Component {
         </span>
         </div>
         <div class="body">
-          <iframe width="853" height="480" src="https://www.youtube.com/embed/_tWodUAMANY" frameborder="0" allowfullscreen></iframe>
+          <iframe width="853" height="480" src="https://cn.bing.com/search?q=Graph%20Data%20Modeling" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="footer">
           <button class="close-dialog-btn" onClick={this.toggleOpen.bind(this)}>Close</button>
