@@ -1,9 +1,9 @@
 'use strict';
 
-import DataManager from '../DataManager';
-import createDomElementInContainer from '../utils/dom';
 import jsonview from 'jquery-jsonview';
-import Dialog from "../ui/dialog";
+import Dialog from '../ui/dialog';
+import overlayOperationDialogBodySpan from '../utils/dialog/domSpan';
+import SaveManager from '../SaveManager';
 
 /** ====================================================================================================================
  * @type {Object}
@@ -18,57 +18,19 @@ const ExportManager = {
    * @returns {Object}
    */
   json: () => {
-    const dataToSave = {
-      data: {
-        nodes: DataManager.getAllNodes(),
-        edges: DataManager.getAllEdges()
-      }
-    };
+    const dataToSave = SaveManager.getSaves();
 
-    DataManager.dialogLayer = createDomElementInContainer('.overlay-dialog.opened',
-        'div',
-        'overlay-export-all-json-dialog',
-        'overlay-export-all-json-dialog'
-    );
+    const vl = document.getElementById('overlay-operation-dialog-body-span-id');
 
-    const json = JSON.stringify(dataToSave);
-    DataManager.dialogLayer.innerHTML = _getHTML(json);
-    $('#overlay-export-all-json-dialog-json-id').JSONView(json, {collapsed: true, nl2br: true});
-
-    DataManager.dialogLayer.addEventListener('click', (e) => {
-      // const target = e.target;
-      // const className = target.classList[0];
-      // console.log(className);
-      // switch (className) {
-      //   case 'close-overlay-export-all-json-dialog-btn':
-      //     DataManager.dialogLayer.classList.remove('overlay-export-all-json-dialog');
-      //     break;
-      //   default:
-      //     break;
-      // }
-      //   document.getElementById('overlay-export-all-json-dialog').style.display = 'none';
-      //   document.querySelector('.overlay-export-all-json-dialog').style.display = 'none';
-        $('.overlay-export-all-json-dialog').attr('display','none');
-    });
+    document.querySelector('.overlay-dialog.opened .dialog .body')
+    if (vl !== null) {
+      Dialog.open(false);
+    } else {
+      $('.overlay-dialog.opened .dialog .body').JSONView(dataToSave);
+      const comElement = overlayOperationDialogBodySpan();
+      comElement.innerHTML = ['JSON字符串：', JSON.stringify(dataToSave)].join('');
+    }
   }
 };
 
-/**
- * @private
- */
-const _getHTML = (data) => `
-     <div class="export-all-json-dialog">
-        <div class="header">
-          <span>Json Data</span>
-        </div>
-        <div class="body">
-            <span id="overlay-export-all-json-dialog-json-id"/></span>
-            <span>${data}</span>
-        </div>
-        <div class="footer">
-          <button class="close-overlay-export-all-json-dialog-btn">Close</button>
-        </div>
-      </div>`;
-
 export default ExportManager;
-

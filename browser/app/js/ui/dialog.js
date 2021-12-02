@@ -6,6 +6,8 @@ import createDomElementInContainer from '../utils/dom';
 import SaveManager from '../SaveManager';
 import DataManager from '../DataManager';
 import ExportManager from '../export/ExportManager';
+import ImportManager from '../import/ImportManager';
+import NotificationManager from "../NotificationManager";
 
 /**
  * @type {string} The Id of the selected save entry
@@ -150,15 +152,24 @@ const _setupDialog = () => {
         _createNewSave();
         break;
       case 'load-btn':
-        SaveManager.load(_selectedSaveId);
-        Dialog.close();
+        if (_selectedSaveId === null) {
+          try {
+            DataManager.loadData(ImportManager.getInputJsonData());
+            NotificationManager.success('Save successfully loaded.');
+            Dialog.close();
+          } catch (e) {
+            alert('【请参考样例数据】\n【主要为data中nodes和edges列表中数据格式需要一致】\n请输入标准的JSON格式：' + ImportManager.getDemoJson());
+          }
+        } else {
+          SaveManager.load(_selectedSaveId);
+          Dialog.close();
+        }
         break;
       case 'delete-btn':
         window.confirm('Are you sure you want to delete all saved nodes and edges?') && SaveManager.remove(_selectedSaveId);
         break;
       case 'save-entry':
         _selectSave(target.id);
-
         // if the same element is clicked in the last DOUBLE_CLICK_SPEED ms
         if (_lastClickedElementId === _selectedSaveId) {
           SaveManager.load(_selectedSaveId);
@@ -169,8 +180,7 @@ const _setupDialog = () => {
         ExportManager.json();
         break;
       case 'import-from-json':
-        console.log('import-from-json');
-        // ExportManager.json();
+        ImportManager.singleModleGraphJson();
         break;
       default:
         break;
@@ -221,6 +231,7 @@ const Dialog = {
     setTimeout(() => {
       Dialog.dialogLayer.classList.add('opened');
     }, 0);
+
   },
 
   /**
@@ -234,5 +245,4 @@ const Dialog = {
 };
 
 export default Dialog;
-
 
