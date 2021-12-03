@@ -3,7 +3,7 @@
 import jsonview from 'jquery-jsonview';
 import Dialog from '../ui/dialog';
 import overlayOperationDialogBodySpan from '../utils/dialog/domSpan';
-import createDomElementInContainer from "../utils/dom";
+import createDomElementInContainer from '../utils/dom';
 
 /** ====================================================================================================================
  * @type {Object}

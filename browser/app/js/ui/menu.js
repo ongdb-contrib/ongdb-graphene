@@ -131,6 +131,10 @@ class MenuPanel extends Component {
         <ul>
           <li className="menu-save-btn" onClick={ this.save.bind(this) }>&#128190; Save <small>(ctrl+s)</small></li>
           <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128194; Load <small>(ctrl+l)</small></li>
+          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128083; Task <small>(task)</small></li>
+          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128228; Export<small>(export)</small></li>
+          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128229; Import<small>(import)</small></li>
+          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128170; Database<small>(database)</small></li>
           <li className="menu-undo-btn" onClick={ this.undo.bind(this) }>&#8617; Undo <small>(ctrl+z)</small></li>
           <li className="menu-redo-btn" onClick={ this.redo.bind(this) }>&#8618; Redo <small>(ctrl+y)</small></li>
           <li className="menu-delete-all-btn" onClick={ this.deleteAll.bind(this) }>&#10005; Delete all</li>

@@ -7,7 +7,9 @@ import SaveManager from '../SaveManager';
 import DataManager from '../DataManager';
 import ExportManager from '../export/ExportManager';
 import ImportManager from '../import/ImportManager';
-import NotificationManager from "../NotificationManager";
+import NotificationManager from '../NotificationManager';
+import CqlManager from '../cql/CqlManager';
+import TaskManager from '../task/TaskManager';
 
 /**
  * @type {string} The Id of the selected save entry
@@ -45,7 +47,7 @@ const _getHTML = (saves) => `
           <span>Saved graphs</span>
           <button class="export-all-json left">Export All Json</button>
           <button class="import-from-json left">Import From Json</button>
-          <button class="save-to-graphdatabases left">Associate With Graph Databases</button>
+          <button class="associate-with-graph-databases left">Associate With Graph Databases</button>
         </div>
         <div id="set_file_name" class="sub-header">
           <span>Save graph as:</span>
@@ -57,7 +59,6 @@ const _getHTML = (saves) => `
         </div>
         <div class="footer">
           <button class="new-save-btn left">New Save</button>
-          <button class="graph-task-mapping left">Graph Task Mapping</button>
           <button class="delete-btn" style="${!_selectedSaveId && 'display: none;'}">Delete</button>
           <button class="load-btn" style="${!_selectedSaveId && 'display: none;'}">Load</button>
           <button class="close-dialog-btn">Close</button>
@@ -182,6 +183,9 @@ const _setupDialog = () => {
       case 'import-from-json':
         ImportManager.singleModleGraphJson();
         break;
+      case 'associate-with-graph-databases':
+        CqlManager.cql();
+        break;
       default:
         break;
     }
@@ -245,4 +249,3 @@ const Dialog = {
 };
 
 export default Dialog;
-

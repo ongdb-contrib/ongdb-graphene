@@ -65,6 +65,21 @@
   width: 100px;
 }
 
+.dialog .body .graph-database-http {
+  display: none;
+  padding: 3px;
+  min-width: 200px;
+}
+
+.dialog .body .view-cql {
+  color: #f34e;
+}
+
+.dialog .body .view-div {
+  padding: 5px;
+  display: grid;
+}
+
 .dialog .footer {
   border-top: solid 1px #ddd;
   text-align: right;

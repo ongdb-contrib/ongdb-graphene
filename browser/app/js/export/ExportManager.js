@@ -18,17 +18,14 @@ const ExportManager = {
    * @returns {Object}
    */
   json: () => {
-    const dataToSave = SaveManager.getSaves();
-
+    const _dataToSave = SaveManager.getSaves();
     const vl = document.getElementById('overlay-operation-dialog-body-span-id');
-
-    document.querySelector('.overlay-dialog.opened .dialog .body')
     if (vl !== null) {
       Dialog.open(false);
     } else {
-      $('.overlay-dialog.opened .dialog .body').JSONView(dataToSave);
+      $('.overlay-dialog.opened .dialog .body').JSONView(_dataToSave);
       const comElement = overlayOperationDialogBodySpan();
-      comElement.innerHTML = ['JSON字符串：', JSON.stringify(dataToSave)].join('');
+      comElement.innerHTML = ['JSON字符串：', JSON.stringify(_dataToSave)].join('');
     }
   }
 };
