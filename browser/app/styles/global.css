@@ -69,7 +69,7 @@ html, body {
 }
 
 .graph-editor select {
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .graph-editor input[type="checkbox"],

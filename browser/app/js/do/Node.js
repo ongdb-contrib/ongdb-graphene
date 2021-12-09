@@ -24,7 +24,9 @@ class Node {
     this.x = options.x;
     this.y = options.y;
     this.color = options.color || color();
-    this.label = (options.label || 'new').toLowerCase();
+    // 取消默认转小写操作
+    // this.label = (options.label || 'new').toLowerCase();
+    this.label = (options.label || 'new');
     this.properties = options.properties || [idProperty];
     this.id = options.id || createId();
     this.isSelected = options.isSelected || false;

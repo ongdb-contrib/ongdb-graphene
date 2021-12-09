@@ -209,7 +209,6 @@ const DataManager = {
    */
   updateNode: (node) => {
     _nodes = _nodes.map(_node => _node.id === node.id ? node : _node);
-
     _dispatchUpdate('update', 'node', node);
     return DataManager;
   },

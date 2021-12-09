@@ -26,7 +26,9 @@ class Edge {
     this.endNodeId = options.endNodeId;
     this.middlePointOffset = options.middlePointOffset || [0, 0];
     this.properties = options.properties || [idProperty];
-    this.label = (options.label || 'no name').toLowerCase();
+    // 取消默认转小写操作
+    // this.label = (options.label || 'no name').toLowerCase();
+    this.label = (options.label || 'no name');
     this.id = options.id || createId();
     this.isSelected = options.isSelected || false;
     this.isEdge = true;

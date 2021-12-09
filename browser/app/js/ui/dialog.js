@@ -9,12 +9,13 @@ import ExportManager from '../export/ExportManager';
 import ImportManager from '../import/ImportManager';
 import NotificationManager from '../NotificationManager';
 import CqlManager from '../cql/CqlManager';
-import TaskManager from '../task/TaskManager';
 
 /**
  * @type {string} The Id of the selected save entry
  */
 let _selectedSaveId;
+
+let _menuType;
 
 /**
  * @param {string} id
@@ -44,10 +45,12 @@ const _createNewSave = () => {
 const _getHTML = (saves) => `
      <div class="dialog">
         <div class="header">
-          <span>Saved graphs</span>
-          <button class="export-all-json left">Export All Json</button>
-          <button class="import-from-json left">Import From Json</button>
-          <button class="associate-with-graph-databases left">Associate With Graph Databases</button>
+          <span class="span">Saved graphs</span>
+          <button class="export-all-json left" style="display: none">Export All Json</button>
+          <button class="upload-json-file left" style="display: none">Upload Json File</button>
+          <button class="import-from-json left" style="display: none">Import From Json</button>
+          <button class="download-json-file left" style="display: none">Download Json File</button>
+          <button class="associate-with-graph-databases left" style="display: none">Graph Databases</button>
         </div>
         <div id="set_file_name" class="sub-header">
           <span>Save graph as:</span>
@@ -58,7 +61,7 @@ const _getHTML = (saves) => `
           <ul class="saves-list">${_getSavesHTML(saves)}</ul>
         </div>
         <div class="footer">
-          <button class="new-save-btn left">New Save</button>
+          <button class="new-save-btn left" style="display: none">New Save</button>
           <button class="delete-btn" style="${!_selectedSaveId && 'display: none;'}">Delete</button>
           <button class="load-btn" style="${!_selectedSaveId && 'display: none;'}">Load</button>
           <button class="close-dialog-btn">Close</button>
@@ -135,7 +138,7 @@ const _setupDialog = () => {
     }
   });
 
-  var _lastClickedElementId;
+  let _lastClickedElementId;
   const DOUBLE_CLICK_SPEED = 400; // in ms
 
   Dialog.dialogLayer.addEventListener('click', (e) => {
@@ -147,7 +150,7 @@ const _setupDialog = () => {
         Dialog.close();
         break;
       case 'new-save-btn':
-        Dialog.open(true);
+        Dialog.open(true, CONST.MENU_SAVE);
         break;
       case 'save-btn':
         _createNewSave();
@@ -180,8 +183,14 @@ const _setupDialog = () => {
       case 'export-all-json':
         ExportManager.json();
         break;
+      case 'upload-json-file':
+        ExportManager.uploadJson();
+        break;
       case 'import-from-json':
-        ImportManager.singleModleGraphJson();
+        ImportManager.singleModelGraphJson();
+        break;
+      case 'download-json-file':
+        ImportManager.downloadJsonFromOS();
         break;
       case 'associate-with-graph-databases':
         CqlManager.cql();
@@ -202,6 +211,50 @@ const _setupDialog = () => {
 };
 
 /**
+ * @description 不同类型对话框展示不同的功能按钮
+ */
+const _showWhich = (forSave) => {
+  function isShowDeleteBtn(isShow) {
+    document.querySelector('.dialog .footer .delete-btn').style.display = 'none';
+  }
+
+  switch (_menuType) {
+    case CONST.MENU_SAVE:
+      document.querySelector('.dialog .footer .new-save-btn').style.display = 'flex';
+      document.getElementById('set_file_name').style.display = forSave ? 'flex' : 'none';
+      document.querySelector('.dialog .sub-header .new-save-name-input').focus();
+      break;
+    case CONST.MENU_LOAD:
+      document.querySelector('.dialog .header .span').innerHTML = 'Load Graphs';
+      isShowDeleteBtn(false);
+      break;
+    case CONST.MENU_TASK:
+      document.querySelector('.dialog .header .span').innerHTML = 'Task Mappings:';
+      isShowDeleteBtn(false);
+      break;
+    case CONST.MENU_EXPORT:
+      document.querySelector('.dialog .header .span').innerHTML = 'Export Graphs:';
+      document.querySelector('.dialog .header .export-all-json').style.display = 'inline';
+      document.querySelector('.dialog .header .upload-json-file').style.display = 'inline';
+      isShowDeleteBtn(false);
+      break;
+    case CONST.MENU_IMPORT:
+      document.querySelector('.dialog .header .span').innerHTML = 'Import Graphs:';
+      document.querySelector('.dialog .header .import-from-json').style.display = 'inline';
+      document.querySelector('.dialog .header .download-json-file').style.display = 'inline';
+      isShowDeleteBtn(false);
+      break;
+    case CONST.MENU_DATABASE:
+      document.querySelector('.dialog .header .span').innerHTML = 'Associate:';
+      document.querySelector('.dialog .header .associate-with-graph-databases').style.display = 'inline';
+      isShowDeleteBtn(false);
+      break;
+    default:
+      break;
+  }
+};
+
+/**
  * @type {{render: Function, open: Function, close: Function}}
  */
 const Dialog = {
@@ -212,14 +265,17 @@ const Dialog = {
   render: () => {
     const saves = SaveManager.getSaves();
     Dialog.dialogLayer.innerHTML = _getHTML(saves);
+    _showWhich(_menuType);
   },
 
   /**
    * @param {boolean} forSave is the open for save or load action
+   * @param menuType
    */
-  open: (forSave) => {
-    _setupDialog();
+  open: (forSave, menuType) => {
+    _menuType = menuType;
 
+    _setupDialog();
     // reset the selected
     _selectedSaveId = null;
 
@@ -227,15 +283,13 @@ const Dialog = {
 
     // hide header for just loading
     // document.querySelector('.dialog .sub-header').style.display = forSave ? 'flex' : 'none';
-    document.getElementById('set_file_name').style.display = forSave ? 'flex' : 'none';
-    document.querySelector('.dialog .sub-header .new-save-name-input').focus();
+    _showWhich(forSave);
     document.querySelector(`#${CONST.SVGROOT_ID}`).classList.add('blurred');
 
     // set opened class later on so there will be open-transition
     setTimeout(() => {
       Dialog.dialogLayer.classList.add('opened');
     }, 0);
-
   },
 
   /**

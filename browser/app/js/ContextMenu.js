@@ -29,7 +29,6 @@ const CM = {
      */
     CM.contextMenuElement.onclick = (e) => {
       const action = e.target.attributes.action.value;
-
       if (action) {
         onActionHandlerFunction({
           position: {
@@ -85,10 +84,9 @@ const CM = {
         <li action="${ACTION.DELETE_NODE}">Delete Node <b>"${entity.label}"</b></li>
       `;
     }
-
     if (entity.isEdge) {
       return `
-        <li action="${ACTION.DELETE_EDGE}">Delete Edge <b>"${entity.label}"</b></li>
+        <li id='svg_action_delete_edge' action="${ACTION.DELETE_EDGE}">Delete Edge <b>"${entity.label}"</b></li>
       `;
     }
 

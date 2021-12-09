@@ -11,6 +11,7 @@ import codeMirror from 'codemirror';
 import graphql from '../utils/graphql/index';
 
 import Dialog from './dialog';
+import CONST from "../enums/CONST";
 
 
 class MenuPanel extends Component {
@@ -105,12 +106,32 @@ class MenuPanel extends Component {
   }
 
   save() {
-    Dialog.open(true);
+    Dialog.open(true, CONST.MENU_SAVE);
     this.closeAll();
   }
 
   load() {
-    Dialog.open(false);
+    Dialog.open(false, CONST.MENU_LOAD);
+    this.closeAll();
+  }
+
+  task() {
+    Dialog.open(false, CONST.MENU_TASK);
+    this.closeAll();
+  }
+
+  export() {
+    Dialog.open(false, CONST.MENU_EXPORT);
+    this.closeAll();
+  }
+
+  import() {
+    Dialog.open(false, CONST.MENU_IMPORT);
+    this.closeAll();
+  }
+
+  database() {
+    Dialog.open(false, CONST.MENU_DATABASE);
     this.closeAll();
   }
 
@@ -131,10 +152,10 @@ class MenuPanel extends Component {
         <ul>
           <li className="menu-save-btn" onClick={ this.save.bind(this) }>&#128190; Save <small>(ctrl+s)</small></li>
           <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128194; Load <small>(ctrl+l)</small></li>
-          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128083; Task <small>(task)</small></li>
-          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128228; Export<small>(export)</small></li>
-          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128229; Import<small>(import)</small></li>
-          <li className="menu-load-btn" onClick={ this.load.bind(this) }>&#128170; Database<small>(database)</small></li>
+          <li className="menu-task-btn" onClick={ this.task.bind(this) }>&#128083; Task <small>(task)</small></li>
+          <li className="menu-export-btn" onClick={ this.export.bind(this) }>&#128228; Export<small>(export)</small></li>
+          <li className="menu-import-btn" onClick={ this.import.bind(this) }>&#128229; Import<small>(import)</small></li>
+          <li className="menu-database-btn" onClick={ this.database.bind(this) }>&#128170; Database<small>(database)</small></li>
           <li className="menu-undo-btn" onClick={ this.undo.bind(this) }>&#8617; Undo <small>(ctrl+z)</small></li>
           <li className="menu-redo-btn" onClick={ this.redo.bind(this) }>&#8618; Redo <small>(ctrl+y)</small></li>
           <li className="menu-delete-all-btn" onClick={ this.deleteAll.bind(this) }>&#10005; Delete all</li>

@@ -4,6 +4,12 @@ import jsonview from 'jquery-jsonview';
 import Dialog from '../ui/dialog';
 import overlayOperationDialogBodySpan from '../utils/dialog/domSpan';
 import createDomElementInContainer from '../utils/dom';
+import CONST from '../enums/CONST';
+import DataManager from "../DataManager";
+import json from "../utils/json/json";
+import SaveManager from "../SaveManager";
+
+let _selectedSaveId;
 
 /** ====================================================================================================================
  * @type {Object}
@@ -11,13 +17,9 @@ import createDomElementInContainer from '../utils/dom';
 const ImportManager = {
 
   /**
-   * @param {Object} rawData
-   * @param {array} rawData.nodes - An Array of nodes
-   * @param {array} rawData.edges - An Array of edges
-   * @param {boolean} isFromHistory - if the load is from history or save no savable event should be fired
-   * @returns {Object}
+   * @description 从json数据导入模型
    */
-  singleModleGraphJson: () => {
+  singleModelGraphJson: () => {
     // 1、创建输入框，接收JSON
     // 2、使用load按钮加载数据到图
     const vl = document.getElementById('overlay-operation-dialog-body-span-id');
@@ -25,7 +27,7 @@ const ImportManager = {
     document.querySelector('.overlay-dialog.opened .dialog .footer .load-btn').style.display = 'inline';
 
     if (vl !== null) {
-      Dialog.open(false);
+      Dialog.open(false, CONST.MENU_IMPORT);
     } else {
       document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').remove();
       // 创建用来中间跳转的span
@@ -53,6 +55,43 @@ const ImportManager = {
   },
 
   /**
+   * @description 从服务器拉取json文件列表，并显示在列表框
+   */
+  downloadJsonFromOS: () => {
+    // 1、创建输入框，接收JSON
+    // 2、使用load按钮加载数据到图
+    const vl = document.getElementById('overlay-operation-dialog-body-span-id');
+
+    if (vl !== null) {
+      Dialog.open(false, CONST.MENU_IMPORT);
+    } else {
+      // document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').remove();
+      // 创建用来中间跳转的span
+      overlayOperationDialogBodySpan();
+      // 读取本地文件列表
+      $.getJSON('upload/demo.json', function (data) {
+        document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').innerHTML = _getSavesHTML([data]);
+        // 绑定点击事件
+        _setupDownload(data);
+      });
+
+      // 读取本地文件列表
+      // let dataArray = [];
+      // $.getJSON('upload/', function (data) {
+      //   data.forEach(dat => {
+      //     $.getJSON( 'upload/' + dat, function (dt) {
+      //       dataArray.push(dt);
+      //     });
+      //   });
+      // });
+      // document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').innerHTML = _getSavesHTML(dataArray);
+      // console.log(dataArray[0]);
+      // // 绑定点击事件
+      // _setupDownload(dataArray);
+    }
+  },
+
+  /**
    * 获取浏览器输入的JSON数据
    */
   getInputJsonData: () => {
@@ -65,6 +104,44 @@ const ImportManager = {
   getDemoJson: () => {
     return _demoJson;
   }
+};
+
+/**
+ * @private
+ */
+const _setupDownload = (saves) => {
+  document.querySelector('.overlay-dialog.opened .dialog .body').addEventListener('click', (e) => {
+    const target = e.target;
+    const className = target.classList[0];
+
+    switch (className) {
+      case 'save-entry-json-os':
+        break;
+      default:
+        break;
+    }
+  });
+};
+
+/**
+ * @param saves
+ * @returns {string}
+ * @private
+ */
+const _getSavesHTML = (saves) => {
+  let html = ``;
+
+  saves.forEach(save => {
+    html += `
+<li class="save-entry-json-os ${_selectedSaveId === save.id && 'selected'}" title="文件名称：${save.name} \n节点关系：${save.data.nodes.length} nodes, ${save.data.edges.length} edges \n创建时间：${save.date}" id="${save.id}">
+      <div class="icon">&#128196;</div>
+      <div class="name">${save.name}
+        <small>${save.date}</small>
+      </div>
+    </li>`;
+  });
+
+  return html;
 };
 
 /**

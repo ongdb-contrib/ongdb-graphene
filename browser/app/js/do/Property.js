@@ -8,7 +8,9 @@ class Property {
    */
   constructor(options = {}) {
     this.id = options.id || createId();
-    this.key = (options.key || 'new').toLowerCase();
+    // 取消默认转小写的操作
+    // this.key = (options.key || 'new').toLowerCase();
+    this.key = (options.key || 'new');
     this.type = (options.type || '');
     this.defaultValue = options.defaultValue || '';
     this.limitMin = options.limitMin || '';

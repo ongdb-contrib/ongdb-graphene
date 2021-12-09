@@ -30,5 +30,11 @@ export default {
   HISTORY_PANEL_ID: 'history-panel',
   HISTORY_PANEL_CLASS: 'history-panel',
   HISTORY_SUMMARY_ID: 'history-summary',
-  HISTORY_SUMMARY_CLASS: 'history-summary'
+  HISTORY_SUMMARY_CLASS: 'history-summary',
+  MENU_SAVE: 'menu_save',
+  MENU_LOAD: 'menu_load',
+  MENU_TASK: 'menu_task',
+  MENU_EXPORT: 'menu_export',
+  MENU_IMPORT: 'menu_import',
+  MENU_DATABASE: 'menu_database'
 };

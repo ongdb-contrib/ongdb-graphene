@@ -21,7 +21,7 @@
   background: #666;
   color: #fff;
   padding: 6px 20px 4px;
-  text-transform: capitalize;
+  text-transform: none;
   overflow: hidden;
   transition: all 0.2s;
   border-radius: 5px;

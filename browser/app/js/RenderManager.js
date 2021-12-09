@@ -84,7 +84,6 @@ const _createOrUpdateArrowForEdge = (edge) => {
  */
 const _renderNodes = (d3Element, nodesData) => {
   const nodes = d3Element.selectAll('.node').data(nodesData, (d) => d.id);
-
   // create svg element on item enter
   const nodesGroups = nodes.enter()
     .append('g')
@@ -165,7 +164,6 @@ const _renderEdges = (d3Element, edgesData) => {
 
   // set edges id
   edges.attr({ id: data => data.id });
-
   edges.select('text').attr({
     x: edge => edge.middlePointWithOffset[0] + 10,
     y: edge => edge.middlePointWithOffset[1],
@@ -310,7 +308,6 @@ const RM = {
    */
   render: (data, container) => {
     _init(container);
-
     _renderEdges(RM.d3GroupForEdges, data.edges);
     _renderNodes(RM.d3GroupForNodes, data.nodes);
   }

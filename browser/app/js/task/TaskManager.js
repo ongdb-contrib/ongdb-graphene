@@ -7,6 +7,7 @@ import SaveManager from '../SaveManager';
 import wrapRequest from '../utils/http/GraphHttp';
 import DataManager from '../DataManager';
 import createDomElementInContainer from '../utils/dom';
+import CONST from '../enums/CONST';
 
 let httpUrl;
 let username;
@@ -38,7 +39,7 @@ const TaskManager = {
     const vl = document.getElementById('overlay-operation-dialog-body-span-id');
 
     if (vl !== null) {
-      Dialog.open(false);
+      Dialog.open(false, CONST.MENU_TASK);
     } else {
       document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').remove();
       // 创建用来中间跳转的span

@@ -71,6 +71,14 @@
   min-width: 200px;
 }
 
+.dialog .body .upload-json-file-new-save {
+  padding: 3ch;
+}
+
+.dialog .body .upload-json-file-new-save .text-input {
+  min-width: 280px;
+}
+
 .dialog .body .view-cql {
   color: #f34e;
 }
@@ -147,7 +155,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .save-entry small {
@@ -182,5 +190,60 @@
 .dialog .body .overlay-operation-dialog-body-input {
   height: 256px;
   width: 512px;
+}
+
+
+.save-entry-json-os {
+  width: 100px;
+  flex: 1;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+  transition: all .2s;
+  padding: 10px;
+  border: solid 1px transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.save-entry-json-os * {
+  pointer-events: none;
+}
+
+.save-entry-json-os:hover,
+.save-entry-json-os:focus {
+  border-color: #eee;
+  outline: none;
+}
+
+.save-entry-json-os.selected {
+  background: #fafafa;
+  border-color: #eee;
+}
+
+.save-entry-json-os .icon {
+  display: inline-block;
+  height: 55px;
+  width: 48px;
+  font-size: 48px;
+  line-height: 54px;
+  vertical-align: middle;
+}
+
+.save-entry-json-os .name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none;
+}
+
+.save-entry-json-os small {
+  opacity: .3;
+  display: block;
+  font-size: 70%;
+  padding: 0 10px;
+  line-height: 1;
+  white-space: normal;
 }
 

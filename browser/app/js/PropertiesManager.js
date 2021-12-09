@@ -35,7 +35,6 @@ class PropertiesManager extends Component {
   addProperty() {
     const entity = this.state.entity;
     entity.properties.push(new Property());
-
     this.setState({ entity });
   }
 

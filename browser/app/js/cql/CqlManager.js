@@ -3,26 +3,15 @@
 import jsonview from 'jquery-jsonview';
 import Dialog from '../ui/dialog';
 import overlayOperationDialogBodySpan from '../utils/dialog/domSpan';
-import SaveManager from '../SaveManager';
 import wrapRequest from '../utils/http/GraphHttp';
 import DataManager from '../DataManager';
-import createDomElementInContainer from '../utils/dom';
+import CONST from '../enums/CONST';
 
 let httpUrl;
 let username;
 let password;
 let graphDatabaseType;
 let responseData;
-
-/**
- * @description 获取当前正在操作的数据
- */
-const _dataToSave = {
-  data: {
-    nodes: DataManager.getAllNodes(),
-    edges: DataManager.getAllEdges()
-  }
-};
 
 /** ====================================================================================================================
  * @type {Object}
@@ -37,11 +26,10 @@ const CqlManager = {
    * @returns {Object}
    */
   cql: () => {
-
     const vl = document.getElementById('overlay-operation-dialog-body-span-id');
 
     if (vl !== null) {
-      Dialog.open(false);
+      Dialog.open(false, CONST.MENU_DATABASE);
     } else {
       document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').remove();
       // 创建用来中间跳转的span
@@ -62,6 +50,16 @@ const _setupDialogWithGraphDatabase = () => {
   document.querySelector('.overlay-dialog.opened .dialog .body').addEventListener('click', (e) => {
     const target = e.target;
     const className = target.classList[0];
+
+    /**
+     * @description 获取当前正在操作的数据
+     */
+    const _dataToSave = {
+      data: {
+        nodes: DataManager.getAllNodes(),
+        edges: DataManager.getAllEdges()
+      }
+    };
 
     switch (className) {
       case 'neo4j-cql':

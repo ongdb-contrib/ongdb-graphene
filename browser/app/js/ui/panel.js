@@ -39,7 +39,6 @@ class SidePanel extends Component {
 
     DataManager.onChange(function (data, eventType) {
       const selectedEntry = DataManager.getSelectedEntity();
-
       if (eventType === 'select') {
         this.setState({ selectedEntry });
 
@@ -52,7 +51,8 @@ class SidePanel extends Component {
       }
 
       if (eventType === 'update') {
-        let jsToSet, schemaToSet;
+        let jsToSet;
+        let schemaToSet;
 
         if (selectedEntry.isNode) {
           jsToSet = graphql.getNodeResolver(selectedEntry);
@@ -107,9 +107,19 @@ class SidePanel extends Component {
     }
   }
 
+  // 绑定点击事件
+  _onClick() {
+    const element = document.getElementById('side-panel');
+    if (element !== null) {
+      element.addEventListener('click', (e) => {
+        closeDeleteEdgeSelectionBox();
+      });
+    }
+  };
+
   render(props, state) {
     return <section id="side-panel"
-                    className={{ hasOpen: state.isPropertiesOpen || state.isSchemaOpen || state.isJavascriptOpen }}>
+                    className={{ hasOpen: state.isPropertiesOpen || state.isSchemaOpen || state.isJavascriptOpen }} onClick={ this._onClick() }>
       <header className={{ open: state.isPropertiesOpen }} onClick={ this.togglePanelProperties.bind(this) }>
         Properties
       </header>
@@ -124,6 +134,16 @@ class SidePanel extends Component {
       </header>
       <section id="side-panel-editor" className={{ open: state.isJavascriptOpen }}/>
     </section>;
+  }
+}
+
+/**
+ * @description 关闭关系删除功能选择框
+ */
+function closeDeleteEdgeSelectionBox() {
+  const element = document.getElementById('svg_action_delete_edge');
+  if (element !== null) {
+    element.remove();
   }
 }
 

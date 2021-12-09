@@ -44,7 +44,6 @@ UI.render = () => {
   let infoPanelHTML = ``;
   const nodes = DataManager.getAllNodes();
   const edges = DataManager.getAllEdges();
-
   function _generateColHTML(entities) {
     if (entities.length === 0) {
       return;

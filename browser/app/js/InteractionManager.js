@@ -25,14 +25,13 @@ function _getTarget(node) {
     target = DataManager.getNode(node.parentNode.id);
   }
 
-  if (type === 'text') {
+  if (type === 'path') {
     target = DataManager.getEdge(node.parentNode.id);
   }
 
   if (node.id === CONST.SVGROOT_ID) {
     target = node;
   }
-
   return target;
 }
 
@@ -185,7 +184,6 @@ const IM = {
     if (!isEdgeText && !isNode && DataManager.isEntitySelected()) {
       DataManager.deselectAllEntities(true);
     }
-
     d3.event.preventDefault();
   },
 
