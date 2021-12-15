@@ -22,6 +22,8 @@ server:
 spring:
   thymeleaf:
     cache: false
+    check-template: false
+    check-template-location: false
   mvc:
     static-path-pattern: /path/**
   resources:

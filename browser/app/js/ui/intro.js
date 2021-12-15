@@ -1,6 +1,6 @@
 /** @jsx h */
 
-import {h, Component} from 'preact';
+import { h, Component } from 'preact';
 
 class Intro extends Component {
   constructor(props) {
@@ -36,7 +36,7 @@ class Intro extends Component {
           <button class="close-dialog-btn" onClick={this.toggleOpen.bind(this)}>Close</button>
         </div>
       </div>
-    </div>
+    </div>;
   }
 }
 

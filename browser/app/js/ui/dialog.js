@@ -46,7 +46,8 @@ const _getHTML = (saves) => `
      <div class="dialog">
         <div class="header">
           <span class="span">Saved graphs</span>
-          <button class="export-all-json left" style="display: none">Export All Json</button>
+          <button class="export-all-json left" style="display: none">All Json</button>
+          <button class="export-current-json left" style="display: none">Current Json</button>
           <button class="upload-json-file left" style="display: none">Upload Json File</button>
           <button class="import-from-json left" style="display: none">Import From Json</button>
           <button class="download-json-file left" style="display: none">Download Json File</button>
@@ -64,6 +65,8 @@ const _getHTML = (saves) => `
           <button class="new-save-btn left" style="display: none">New Save</button>
           <button class="delete-btn" style="${!_selectedSaveId && 'display: none;'}">Delete</button>
           <button class="load-btn" style="${!_selectedSaveId && 'display: none;'}">Load</button>
+          <button class="delete-btn-indb" style="display: none">Delete</button>
+          <button class="download-btn" style="display: none">Download</button>
           <button class="close-dialog-btn">Close</button>
         </div>
       </div>`;
@@ -181,7 +184,10 @@ const _setupDialog = () => {
         }
         break;
       case 'export-all-json':
-        ExportManager.json();
+        ExportManager.all();
+        break;
+      case 'export-current-json':
+        ExportManager.current();
         break;
       case 'upload-json-file':
         ExportManager.uploadJson();
@@ -220,7 +226,7 @@ const _showWhich = (forSave) => {
 
   switch (_menuType) {
     case CONST.MENU_SAVE:
-      document.querySelector('.dialog .footer .new-save-btn').style.display = 'flex';
+      document.querySelector('.dialog .footer .new-save-btn').style.display = 'inline';
       document.getElementById('set_file_name').style.display = forSave ? 'flex' : 'none';
       document.querySelector('.dialog .sub-header .new-save-name-input').focus();
       break;
@@ -235,6 +241,7 @@ const _showWhich = (forSave) => {
     case CONST.MENU_EXPORT:
       document.querySelector('.dialog .header .span').innerHTML = 'Export Graphs:';
       document.querySelector('.dialog .header .export-all-json').style.display = 'inline';
+      document.querySelector('.dialog .header .export-current-json').style.display = 'inline';
       document.querySelector('.dialog .header .upload-json-file').style.display = 'inline';
       isShowDeleteBtn(false);
       break;

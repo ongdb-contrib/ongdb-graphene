@@ -1,31 +1,13 @@
 'use strict';
 
 import createId from './utils/id';
+import _formatDate from './utils/date';
 import DataManager from './DataManager';
 import NotificationManager from './NotificationManager';
 
 let _saves = [];
 const _onUpdateCallbackHandlers = [];
-
-/**
- * @param date
- * @returns {*}
- * @private
- */
-const _formatDate = (date) => {
-  let hours = date.getHours();
-  let minutes = date.getMinutes();
-
-  const day = date.getDate();
-  const month = date.getMonth();
-  const year = date.getFullYear();
-
-  const ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
-  minutes = minutes < 10 ? (`0${minutes}`) : minutes;
-  return `${day}/${month}/${year} ${hours}:${minutes}${ampm}`;
-};
+let _currentName = null;
 
 const _dispatchEvent = (payload) => {
   _onUpdateCallbackHandlers.forEach(callbackHandler => {
@@ -71,8 +53,16 @@ const SM = {
    */
   load: (id) => {
     const save = _saves.filter(s => s.id === id)[0];
+    _currentName = save.name;
     DataManager.loadData(save.data);
     NotificationManager.success('Save successfully loaded.');
+  },
+
+  /**
+   * @param 当前操作的模型名称
+   */
+  currentName: () => {
+    return _currentName;
   },
 
   /**

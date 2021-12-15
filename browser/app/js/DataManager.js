@@ -13,7 +13,7 @@ import reposition from './utils/reposition';
 let _nodes = [];
 let _edges = [];
 
-let _updateCallbacks = new Set();
+const _updateCallbacks = new Set();
 
 /**
  * @param {Object} rawData
@@ -182,7 +182,6 @@ const DataManager = {
   loadData: (rawData, isFromHistory) => {
     const data = _replaceData(rawData);
     const eventType = isFromHistory ? 'history' : 'load';
-
     _dispatchUpdate(eventType, 'data', data);
 
     // dispatch selected if any

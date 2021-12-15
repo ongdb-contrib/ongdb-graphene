@@ -5,11 +5,11 @@ import Dialog from '../ui/dialog';
 import overlayOperationDialogBodySpan from '../utils/dialog/domSpan';
 import createDomElementInContainer from '../utils/dom';
 import CONST from '../enums/CONST';
-import DataManager from "../DataManager";
-import json from "../utils/json/json";
-import SaveManager from "../SaveManager";
+import DataManager from '../DataManager';
+import NotificationManager from '../NotificationManager';
+import Http from '../utils/http/Http';
 
-let _selectedSaveId;
+let _downloadId;
 
 /** ====================================================================================================================
  * @type {Object}
@@ -55,43 +55,6 @@ const ImportManager = {
   },
 
   /**
-   * @description 从服务器拉取json文件列表，并显示在列表框
-   */
-  downloadJsonFromOS: () => {
-    // 1、创建输入框，接收JSON
-    // 2、使用load按钮加载数据到图
-    const vl = document.getElementById('overlay-operation-dialog-body-span-id');
-
-    if (vl !== null) {
-      Dialog.open(false, CONST.MENU_IMPORT);
-    } else {
-      // document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').remove();
-      // 创建用来中间跳转的span
-      overlayOperationDialogBodySpan();
-      // 读取本地文件列表
-      $.getJSON('upload/demo.json', function (data) {
-        document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').innerHTML = _getSavesHTML([data]);
-        // 绑定点击事件
-        _setupDownload(data);
-      });
-
-      // 读取本地文件列表
-      // let dataArray = [];
-      // $.getJSON('upload/', function (data) {
-      //   data.forEach(dat => {
-      //     $.getJSON( 'upload/' + dat, function (dt) {
-      //       dataArray.push(dt);
-      //     });
-      //   });
-      // });
-      // document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').innerHTML = _getSavesHTML(dataArray);
-      // console.log(dataArray[0]);
-      // // 绑定点击事件
-      // _setupDownload(dataArray);
-    }
-  },
-
-  /**
    * 获取浏览器输入的JSON数据
    */
   getInputJsonData: () => {
@@ -103,23 +66,65 @@ const ImportManager = {
      */
   getDemoJson: () => {
     return _demoJson;
-  }
+  },
+
+  /**
+   * @description 从服务器拉取json文件列表，并显示在列表框
+   */
+  downloadJsonFromOS: () => {
+    // 1、创建输入框，接收JSON
+    // 2、使用load按钮加载数据到图
+    const vl = document.getElementById('overlay-operation-dialog-body-span-id');
+
+    if (vl !== null) {
+      Dialog.open(false, CONST.MENU_IMPORT);
+    } else {
+      // 创建用来中间跳转的span
+      overlayOperationDialogBodySpan();
+      // 读取服务器建模JSON文件到内存【多人协作分享建模文件】
+      Http.loadJsonFileList();
+      // 展示服务器文件列表
+      const element = document.querySelector('.overlay-dialog.opened .dialog .body .saves-list');
+      element.innerHTML = _getSavesHTML(Http.getJsonDataList());
+      // 绑定点击事件
+      _setupDownloadId();
+      _setupDownload();
+    }
+  },
 };
 
 /**
  * @private
  */
-const _setupDownload = (saves) => {
-  document.querySelector('.overlay-dialog.opened .dialog .body').addEventListener('click', (e) => {
+const _setupDownloadId = () => {
+  document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').addEventListener('click', (e) => {
     const target = e.target;
-    const className = target.classList[0];
-
-    switch (className) {
-      case 'save-entry-json-os':
-        break;
-      default:
-        break;
+    // 生成下载ID
+    _downloadId = target.id.replace('save-entry-json-os-', '');
+    // 重置其它已选中效果
+    document.querySelector('.overlay-dialog.opened .dialog .body .saves-list').innerHTML = _getSavesHTML(Http.getJsonDataList());
+    // 设置选中效果
+    const downloadEle = document.querySelector('.dialog .footer .download-btn');
+    const element = document.getElementById(target.id);
+    if (element !== null) {
+      downloadEle.style.display = 'inline';
+      const ele = element.style;
+      ele.background = '#fafafa';
+      ele.border = '#eee';
+    } else {
+      downloadEle.style.display = 'none';
     }
+  });
+};
+
+/**
+ * @private
+ */
+const _setupDownload = () => {
+  document.querySelector('.overlay-dialog.opened .dialog .footer .download-btn').addEventListener('click', () => {
+    DataManager.loadData(Http.getJsonDataMap()[_downloadId].data);
+    NotificationManager.success('Save successfully loaded.');
+    Dialog.close();
   });
 };
 
@@ -133,7 +138,7 @@ const _getSavesHTML = (saves) => {
 
   saves.forEach(save => {
     html += `
-<li class="save-entry-json-os ${_selectedSaveId === save.id && 'selected'}" title="文件名称：${save.name} \n节点关系：${save.data.nodes.length} nodes, ${save.data.edges.length} edges \n创建时间：${save.date}" id="${save.id}">
+<li id="save-entry-json-os-${save.id}" class="save-entry-json-os" title="文件名称：${save.name} \n节点关系：${save.data.nodes.length} nodes, ${save.data.edges.length} edges \n创建时间：${save.date}">
       <div class="icon">&#128196;</div>
       <div class="name">${save.name}
         <small>${save.date}</small>

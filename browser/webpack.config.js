@@ -1,12 +1,17 @@
-var path = require('path');
-var webpack = require('webpack');
-var UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   devtool: 'source-map',
   entry: [
     './app/main.js'
   ],
+  devServer: {
+    disableHostCheck: true,
+    host: '0.0.0.0',
+    port: 8080
+  },
   output: {
     path: path.join(__dirname, 'build'),
     publicPath: '/',
@@ -22,6 +27,9 @@ module.exports = {
       'window.jQuery': 'jquery'
     })
   ],
+  node: {
+    fs: 'empty'
+  },
   module: {
     loaders: [
       {
