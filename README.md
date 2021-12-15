@@ -6,7 +6,7 @@
 ## introduction
 >图数据模型设计工具
 
-![intro-1](browser/images/intro-3.jpg)
+![intro-1](browser/images/intro-1.jpg)
 
 ## 一、前端【browser:browser】
 ```
