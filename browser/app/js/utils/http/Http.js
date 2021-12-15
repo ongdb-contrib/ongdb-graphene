@@ -10,7 +10,7 @@ const loadJsonFile = () => {
   $.ajax(
     {
       type: 'GET',
-      url: 'http://localhost:8081/ongdb-graphene/main/getJsonFileList',
+      url: '/ongdb-graphene/main/getJsonFileList',
       contentType: 'application/json',
       success: function (data) {
         _dataList = data;
@@ -30,7 +30,7 @@ const saveJsonFile = (data) => {
   $.ajax(
     {
       type: 'POST',
-      url: 'http://localhost:8081/ongdb-graphene/main/saveJsonFile',
+      url: '/ongdb-graphene/main/saveJsonFile',
       contentType: 'application/json',
       data: JSON.stringify([data]),
       dataType: 'json',
@@ -54,7 +54,7 @@ const deleteNodeByLabelWithFieldID = (label, id) => {
   $.ajax(
     {
       type: 'POST',
-      url: 'http://localhost:8081/ongdb-graphene/main/deleteNodeByLabelWithFieldID',
+      url: '/ongdb-graphene/main/deleteNodeByLabelWithFieldID',
       contentType: 'application/json',
       data: JSON.stringify(para),
       dataType: 'json',

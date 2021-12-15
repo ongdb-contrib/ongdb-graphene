@@ -9,6 +9,9 @@
 ![intro-1](browser/images/intro-3.jpg)
 
 ## 一、前端【browser:browser】
+```
+unzip -d ./ongdb-graphene-browser/ ongdb-graphene-browser.zip
+```
 1. git clone https://github.com/ongdb-contrib/ongdb-graphene.git
 2. cd ongdb-graphene/browser
 3. npm install
@@ -16,12 +19,12 @@
 5. open http://localhost:8080/app/
 
 ### Dockerfile
-- 在ongdb-graphene根目录下创建Dockerfile文件，打包前端docker镜像即可
+- 在ongdb-graphene/browser目录下创建Dockerfile文件，打包前端docker镜像即可
 ```
 FROM centos
 USER root
 WORKDIR /app
-ADD . /app
+ADD . /app/
 RUN yum install -y npm maven
 RUN npm install -g cnpm -registry=https://registry.npm.taobao.org
 RUN npm install webpack@4.46.0 webpack-cli@3.3.12 webpack-dev-server@3.11.0 -g
@@ -45,11 +48,11 @@ WORKDIR /app/browser
 ```
 - 打包
 ```
-sudo docker build -t ongdb-graphene:v-0.0.1 .
+sudo docker build -t ongdb-graphene-browser:v-1.0.0 .
 ```
 - 启动
 ```
-sudo docker run -p 8080:8080 ongdb-graphene:v-0.0.1 bash -c "cnpm install && cnpm start"
+sudo docker run -p 8080:8080 ongdb-graphene-browser:v-1.0.0 bash -c "cnpm install && cnpm start"
 ```
 
 ## 二、后端【backend:ongdb-graphene】
@@ -72,6 +75,3 @@ https://localhost:8082/ongdb-graphene/v2/api-docs
 http://localhost:8081/ongdb-graphene/swagger-ui.html
 https://localhost:8082/ongdb-graphene/swagger-ui.html
 ```
-
-
-
