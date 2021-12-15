@@ -13,6 +13,8 @@ import _formatDate from '../utils/date';
 
 let _downloadId;
 
+const _administratorKey = 'a399f5a3-8751-491a-bd69-be7c94ec39e2';
+
 /** ====================================================================================================================
  * @type {Object}
  ==================================================================================================================== */
@@ -134,8 +136,13 @@ const _setupDownload = () => {
  */
 const _setupDelete = () => {
   document.querySelector('.overlay-dialog.opened .dialog .footer .delete-btn-indb').addEventListener('click', () => {
-    window.confirm('Are you sure you want to delete all saved nodes and edges?') && Http.deleteJsonFile(_downloadId);
-    refresh();
+    const key = prompt("Administrator's key:", 'Please ask the administrator');
+    if (key === _administratorKey) {
+      window.confirm('Are you sure you want to delete all saved nodes and edges?') && Http.deleteJsonFile(_downloadId);
+      refresh();
+    } else {
+      alert('Permission denied!!!');
+    }
   });
 };
 

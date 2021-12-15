@@ -15,5 +15,8 @@
 ![intro-4](images/intro-4.jpg)
 ![intro-5](images/intro-5.jpg)
 
-
+- 测试用管理员秘钥
+```
+a399f5a3-8751-491a-bd69-be7c94ec39e2
+```
 
