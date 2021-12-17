@@ -79,7 +79,7 @@ class PropertiesManager extends Component {
           <p>
             <input type="text" name="" id="properties-search-input" placeholder="Search properties" onInput={ this.searchData.bind(this) } />
           </p>
-          <ul id="properties-search-result" onClick={ this.searchResultClick() } onMouseLeave={ this.searchHighlighted() }/>
+          <ul id="properties-search-result" onClick={ this.searchResultClick() } onMouseEnter={ this.searchHighlighted() }/>
         </div>
         <div className="properties">
           <ul id="properties-list">
