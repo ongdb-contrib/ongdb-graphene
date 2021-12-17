@@ -1,6 +1,6 @@
 'use strict';
 /** @jsx h */
-import {h, Component} from 'preact';
+import { h, Component } from 'preact';
 
 import CONST from './enums/CONST';
 import PROPERTY_TYPES from './enums/PROPERTY_TYPES';
@@ -62,7 +62,6 @@ class PropertiesManager extends Component {
     if (!entity) {
       return <div className="no-selected">Select node/edge to edit properties</div>;
     }
-
     return <div id={CONST.PROPERTY_MENU_ID} className={CONST.PROPERTY_MENU_CLASS}>
       <div className="header">
         <span className="color">
@@ -79,7 +78,8 @@ class PropertiesManager extends Component {
           <ul id="properties-list">
             { entity.properties.map((prop) => <li className={{
               selected: (state.selectedProperty && prop.id === state.selectedProperty.id),
-              disabled: prop.isSystem
+              disabled: prop.isSystem,
+              schema_indexes: prop.key === 'schema-indexes'
             }}>
               <div className="property">
                 <input

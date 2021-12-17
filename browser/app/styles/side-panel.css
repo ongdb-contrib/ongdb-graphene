@@ -72,3 +72,9 @@
 #side-panel-properties.open {
   min-height: 340px;
 }
+
+#properties-list .schema_indexes .property .propertyName {
+  color: #ccc;
+}
+
+

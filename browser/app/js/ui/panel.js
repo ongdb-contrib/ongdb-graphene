@@ -16,6 +16,7 @@ class SidePanel extends Component {
       isPropertiesOpen: false,
       isSchemaOpen: false,
       isJavascriptOpen: false,
+      isIndexesOpen: false,
       selectedEntry: null
     };
   }
@@ -32,6 +33,15 @@ class SidePanel extends Component {
 
     const editor = codeMirror(document.querySelector('#side-panel-editor'), {
       lineNumbers: true,
+      readOnly: true,
+      lineWrapping: true,
+      mode: 'javascript',
+      value: ''
+    });
+
+    const indexes = codeMirror(document.querySelector('#side-panel-indexes'), {
+      lineNumbers: true,
+      // readOnly: true,
       lineWrapping: true,
       mode: 'javascript',
       value: ''
@@ -47,6 +57,7 @@ class SidePanel extends Component {
           const nodeSchema = graphql.getNodeSchema(selectedEntry);
           editor.setValue(nodeJS);
           schema.setValue(nodeSchema);
+          indexes.setValue(this.getIndexesValue(selectedEntry));
         }
       }
 
@@ -66,12 +77,14 @@ class SidePanel extends Component {
 
         editor.setValue(jsToSet);
         schema.setValue(schemaToSet);
+        indexes.setValue(this.getIndexesValue(selectedEntry));
       }
 
       if (eventType === 'deselect') {
         this.setState({ selectedEntry: null });
         editor.setValue('');
         schema.setValue('');
+        indexes.setValue('');
       }
 
       if (eventType === 'dblclick') {
@@ -79,6 +92,21 @@ class SidePanel extends Component {
         this.setState({ selectedEntry, isPropertiesOpen: true });
       }
     }.bind(this));
+  }
+
+  /**
+   * @param selectedEntry 被选中的实体
+   * @description 从实体的description和defaultValue字段获取创建索引的信息
+   * @returns {Object}
+   */
+  getIndexesValue(selectedEntry) {
+    const properties = selectedEntry.properties;
+    for (const map of properties) {
+      if (map.key === 'schema-indexes') {
+        return map.description === null || map.description.trim() === '' ? map.defaultValue : map.description;
+      }
+    }
+    return '';
   }
 
   togglePanelProperties() {
@@ -93,11 +121,14 @@ class SidePanel extends Component {
     this.setState({ isJavascriptOpen: !this.state.isJavascriptOpen });
   }
 
+  togglePanelInx() {
+    this.setState({ isIndexesOpen: !this.state.isIndexesOpen });
+  }
+
   onEntityChange(entity) {
     if (!entity) {
       return false;
     }
-
     if (entity.isNode) {
       DataManager.updateNode(entity);
     }
@@ -119,7 +150,7 @@ class SidePanel extends Component {
 
   render(props, state) {
     return <section id="side-panel"
-                    className={{ hasOpen: state.isPropertiesOpen || state.isSchemaOpen || state.isJavascriptOpen }} onClick={ this._onClick() }>
+                    className={{ hasOpen: state.isPropertiesOpen || state.isSchemaOpen || state.isJavascriptOpen || state.isIndexesOpen }} onClick={ this._onClick() }>
       <header className={{ open: state.isPropertiesOpen }} onClick={ this.togglePanelProperties.bind(this) }>
         Properties
       </header>
@@ -133,6 +164,10 @@ class SidePanel extends Component {
       <header className={{ open: state.isJavascriptOpen }} onClick={ this.togglePanelJs.bind(this) }>Javascript
       </header>
       <section id="side-panel-editor" className={{ open: state.isJavascriptOpen }}/>
+
+      <header className={{ open: state.isIndexesOpen }} onClick={ this.togglePanelInx.bind(this) }>Indexes
+      </header>
+      <section id="side-panel-indexes" className={{ open: state.isIndexesOpen }}/>
     </section>;
   }
 }
