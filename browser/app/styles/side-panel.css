@@ -77,4 +77,13 @@
   color: #ccc;
 }
 
+#properties-search {
+  position: absolute;
+  top: 275px;
+  left: 150px;
+}
+
+/*#properties-search-result .li {*/
+/*  background: salmon;*/
+/*}*/
 

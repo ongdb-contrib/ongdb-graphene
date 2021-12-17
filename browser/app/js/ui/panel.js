@@ -101,9 +101,19 @@ class SidePanel extends Component {
    */
   getIndexesValue(selectedEntry) {
     const properties = selectedEntry.properties;
-    for (const map of properties) {
-      if (map.key === 'schema-indexes') {
-        return map.description === null || map.description.trim() === '' ? map.defaultValue : map.description;
+    const element = document.querySelector('#properties-list .selected .property .propertyName');
+    if (element !== null) {
+      const key = element.value;
+      for (const map of properties) {
+        if (map.key === key) {
+          return map.description === null || map.description.trim() === '' ? map.defaultValue : map.description;
+        }
+      }
+    } else {
+      for (const map of properties) {
+        if (map.key === 'schema-indexes') {
+          return map.description === null || map.description.trim() === '' ? map.defaultValue : map.description;
+        }
       }
     }
     return '';
@@ -158,16 +168,16 @@ class SidePanel extends Component {
         <PropertiesManager entity={ state.selectedEntry } onEntityChange={ this.onEntityChange }/>
       </section>
 
+      <header className={{ open: state.isIndexesOpen }} onClick={ this.togglePanelInx.bind(this) }>Indexes
+      </header>
+      <section id="side-panel-indexes" className={{ open: state.isIndexesOpen }}/>
+
       <header className={{ open: state.isSchemaOpen }} onClick={ this.togglePanelSchema.bind(this) }>Schema</header>
       <section id="side-panel-schema" className={{ open: state.isSchemaOpen }}/>
 
       <header className={{ open: state.isJavascriptOpen }} onClick={ this.togglePanelJs.bind(this) }>Javascript
       </header>
       <section id="side-panel-editor" className={{ open: state.isJavascriptOpen }}/>
-
-      <header className={{ open: state.isIndexesOpen }} onClick={ this.togglePanelInx.bind(this) }>Indexes
-      </header>
-      <section id="side-panel-indexes" className={{ open: state.isIndexesOpen }}/>
     </section>;
   }
 }
