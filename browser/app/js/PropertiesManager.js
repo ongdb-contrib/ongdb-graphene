@@ -79,7 +79,7 @@ class PropertiesManager extends Component {
           <p>
             <input type="text" name="" id="properties-search-input" placeholder="Search properties" onInput={ this.searchData.bind(this) } />
           </p>
-          <ul id="properties-search-result" onClick={ this.searchResultClick() } onMouseEnter={ this.searchHighlighted() }/>
+          <ul id="properties-search-result" onClick={ this.searchResultClick() } />
         </div>
         <div className="properties">
           <ul id="properties-list">
@@ -211,21 +211,9 @@ class PropertiesManager extends Component {
     if (element !== null) {
       element.addEventListener('click', (e) => {
         const target = e.target;
-        document.querySelector('#properties-search-result .li').style.background = 'transparent';
-        document.getElementById(target.id).style.background = '#ccc';
-        // addProperty();
-        console.log(target.id);
-      });
-    }
-  }
-
-  searchHighlighted() {
-    const element = document.getElementById('properties-search-result');
-    if (element !== null) {
-      element.addEventListener('mouseover', (e) => {
-        const target = e.target;
         // document.querySelector('#properties-search-result .li').style.background = 'transparent';
-        document.getElementById(target.id).style.background = '#ccc';
+        // document.getElementById(target.id).style.background = '#ccc';
+        // addProperty();
         console.log(target.id);
       });
     }
