@@ -79,11 +79,25 @@
 
 #properties-search {
   position: absolute;
-  top: 275px;
-  left: 150px;
+  top: 45px;
+  left: 130px;
+  width: 190px;
+  z-index: 999;
 }
 
-/*#properties-search-result .li {*/
-/*  background: salmon;*/
-/*}*/
+#properties-search-result {
+  /*background: #d8e3ed;*/
+  background: rgba(216,227,237,0.5);
+}
+
+#properties-search-input {
+  background: rgba(247,194,194,0.5);
+  width: 103px;
+  height: 20px;
+  border: inset;
+}
+
+#properties-search-result .li:hover {
+  background: #ccc;
+}
 
