@@ -33,7 +33,6 @@ const _createNewSave = () => {
       edges: DataManager.getAllEdges()
     }
   };
-
   const name = document.querySelector('.new-save-name-input').value;
   SaveManager.save(dataToSave, name);
 };
@@ -55,7 +54,7 @@ const _getHTML = (saves) => `
         </div>
         <div id="set_file_name" class="sub-header">
           <span>Save graph as:</span>
-          <input type="text" maxlength="20" placeholder="Name of the save you wanna save." class="new-save-name-input" />
+          <input type="text" maxlength="20" placeholder="Name of the save you wanna save." class="new-save-name-input" value="${ SaveManager.currentName() }" />
           <button class="save-btn">Save</button>
         </div>
         <div class="body">

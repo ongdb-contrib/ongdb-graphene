@@ -125,7 +125,9 @@ const _setupDownloadId = () => {
  */
 const _setupDownload = () => {
   document.querySelector('.overlay-dialog.opened .dialog .footer .download-btn').addEventListener('click', () => {
-    DataManager.loadData(Http.getJsonDataMap()[_downloadId].data);
+    const dataPack = Http.getJsonDataMap()[_downloadId];
+    SaveManager.setCurrentName(dataPack.name);
+    DataManager.loadData(dataPack.data);
     NotificationManager.success('Save successfully loaded.');
     Dialog.close();
   });

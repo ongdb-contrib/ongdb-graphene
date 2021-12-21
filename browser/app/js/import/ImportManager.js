@@ -8,6 +8,7 @@ import CONST from '../enums/CONST';
 import DataManager from '../DataManager';
 import NotificationManager from '../NotificationManager';
 import Http from '../utils/http/Http';
+import SaveManager from "../SaveManager";
 
 let _downloadId;
 
@@ -122,7 +123,9 @@ const _setupDownloadId = () => {
  */
 const _setupDownload = () => {
   document.querySelector('.overlay-dialog.opened .dialog .footer .download-btn').addEventListener('click', () => {
-    DataManager.loadData(Http.getJsonDataMap()[_downloadId].data);
+    const dataPack = Http.getJsonDataMap()[_downloadId];
+    SaveManager.setCurrentName(dataPack.name);
+    DataManager.loadData(dataPack.data);
     NotificationManager.success('Save successfully loaded.');
     Dialog.close();
   });

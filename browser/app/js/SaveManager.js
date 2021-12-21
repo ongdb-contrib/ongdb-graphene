@@ -59,10 +59,18 @@ const SM = {
   },
 
   /**
-   * @param 当前操作的模型名称
+   * @description 获取当前操作的模型名称
    */
   currentName: () => {
-    return _currentName;
+    return (_currentName === null) ? '' : _currentName;
+  },
+
+  /**
+   * @param name
+   * @description 设置当前操作的模型名称
+   */
+  setCurrentName: (name) => {
+    _currentName = name;
   },
 
   /**
