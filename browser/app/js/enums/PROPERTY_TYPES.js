@@ -11,5 +11,7 @@ export default {
   EMAIL: 'Email',
   URL: 'URL',
   DATE: 'Datetime',
-  LATLNG: 'LatLng'
+  LATLNG: 'LatLng',
+  ENUM: 'Enum',
+  OBJECT: 'Ojbect'
 };
