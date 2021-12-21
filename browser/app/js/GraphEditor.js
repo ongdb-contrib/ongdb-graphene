@@ -71,7 +71,7 @@ class GraphEditor {
 
 
     // initialize the Interaction manager
-    InteractionManager.init(this.svg, parentDomContainer);
+    InteractionManager.init(this.svg, parentDomContainer, $$entitiesGroupElement);
 
     /**
      * On update re-render the content

@@ -81,13 +81,16 @@ const _updatePosition = (direction) => {
 };
 
 const _zoomAndDragBehaviour = d3.behavior.zoom()
+  .scaleExtent([0.2, 3])
   .on('zoom', () => {
     const direction = d3.event.sourceEvent;
     if (direction) {
       _updatePosition([direction.movementX, direction.movementY]);
     }
+    IM._entitiesGroup.attr('transform', 'scale(' + d3.event.scale + ')');
   });
-
+  // 取消双击缩放;
+  // .on('dblclick.zoom', null);
 
 /**
  *
@@ -99,14 +102,17 @@ const IM = {
   /**
    * @param d3Element
    * @param rootDivElement
+   * @param entitiesGroupElement
    * @returns {*}
    */
-  init: (d3Element, rootDivElement) => {
+  init: (d3Element, rootDivElement, entitiesGroupElement) => {
     if (d3Element === undefined) {
       throw new Error('The EventManager needs a "container" to attach and listen for events.');
     }
 
     IM._container = d3Element;
+
+    IM._entitiesGroup = entitiesGroupElement;
 
     IM._container.call(_zoomAndDragBehaviour);
     IM._container.on('click', IM.svgClickHandler);
