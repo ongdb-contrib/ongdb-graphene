@@ -1,61 +1,8 @@
 # ongdb-graphene
->ONgDB GRAPHENE
 
->前后端分离项目：启动时分别启动后端接口服务、前端可视化服务
+>Graphene图数据建模后端服务，持久化图数据模型
 
-## introduction
->图数据模型设计工具
-
-![intro-1](browser/images/intro-1.jpg)
-
-## 一、前端【browser:browser】
-```
-unzip -d ./ongdb-graphene-browser/ ongdb-graphene-browser.zip
-```
-1. git clone https://github.com/ongdb-contrib/ongdb-graphene.git
-2. cd ongdb-graphene/browser
-3. npm install
-4. npm start
-5. open http://localhost:8080/app/
-
-### Dockerfile
-- 在ongdb-graphene/browser目录下创建Dockerfile文件，打包前端docker镜像即可
-```
-FROM centos
-USER root
-WORKDIR /app
-ADD . /app/
-RUN yum install -y npm maven
-RUN npm install -g cnpm -registry=https://registry.npm.taobao.org
-RUN npm install webpack@4.46.0 webpack-cli@3.3.12 webpack-dev-server@3.11.0 -g
-RUN cnpm install clean-webpack-plugin@3.0.0 \
-                 css-loader@3.6.0 \
-                 file-loader@6.0.0 \
-                 html-loader@1.1.0 \
-                 html-webpack-harddisk-plugin@1.0.2 \
-                 html-webpack-plugin@4.5.2 \
-                 mini-css-extract-plugin@0.9.0 \
-                 node-sass@4.14.1 \
-                 optimize-css-assets-webpack-plugin@5.0.3 \
-                 sass-loader@9.0.2 \
-                 style-loader@1.2.1 \
-                 url-loader@4.1.0 \
-                 copy-webpack-plugin@6.2.1 \
-                 glob@7.1.6 jquery@3.5.1
-WORKDIR /app/browser
-#CMD ["cnpm","install"]
-#ENTRYPOINT ["cnpm", "start"]
-```
-- 打包
-```
-sudo docker build -t ongdb-graphene-browser:v-1.0.0 .
-```
-- 启动
-```
-sudo docker run -p 8080:8080 ongdb-graphene-browser:v-1.0.0 bash -c "cnpm install && cnpm start"
-```
-
-## 二、后端【backend:ongdb-graphene】
+## 说明
 - 启动类
 ```
 data.lab.ongdb.RestApiEntrance
@@ -75,3 +22,37 @@ https://localhost:8082/ongdb-graphene/v2/api-docs
 http://localhost:8081/ongdb-graphene/swagger-ui.html
 https://localhost:8082/ongdb-graphene/swagger-ui.html
 ```
+
+- Get接口测试
+```
+http://localhost:8080/ongdb-graphene/main/hello
+```
+
+## Docker
+- 打包docker镜像
+```
+sudo docker build -t ongdb-graphene:v-1.0.0 .
+```
+- 查看镜像
+```
+sudo docker images
+```
+- 运行镜像
+```
+sudo docker run -p 8081:8081 ongdb-graphene:v-1.0.0
+```
+- 查看docker容器中启动的进程
+```
+sudo docker ps
+```
+
+- 对镜像设置TAG
+```
+sudo docker tag ongdb-graphene:v-1.0.0 10.20.10.185/dalaxy/ongdb-graphene:v-1.0.0
+```
+- 提交到镜像服务器
+```
+sudo docker push 10.20.10.185/dalaxy/ongdb-graphene:v-1.0.0
+```
+
+
