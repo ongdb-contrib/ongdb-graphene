@@ -48,11 +48,11 @@ sudo docker ps
 
 - 对镜像设置TAG
 ```
-sudo docker tag ongdb-graphene:v-1.0.0 10.20.10.185/dalaxy/ongdb-graphene:v-1.0.0
+sudo docker tag ongdb-graphene:v-1.0.0 localhost/model/ongdb-graphene:v-1.0.0
 ```
 - 提交到镜像服务器
 ```
-sudo docker push 10.20.10.185/dalaxy/ongdb-graphene:v-1.0.0
+sudo docker push localhost/model/ongdb-graphene:v-1.0.0
 ```
 
 
