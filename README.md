@@ -55,4 +55,3 @@ sudo docker tag ongdb-graphene:v-1.0.0 localhost/model/ongdb-graphene:v-1.0.0
 sudo docker push localhost/model/ongdb-graphene:v-1.0.0
 ```
 
-
